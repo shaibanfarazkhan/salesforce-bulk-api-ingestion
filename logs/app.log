@@ -1,0 +1,133 @@
+[2026-10-24 21:00:47] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-10-24 21:00:47] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-10-24 21:00:47] [ERROR] [SYSTEM] [app:44] - Unhandled System Exception: name 'HEADER_CORRELATION_ID' is not defined
+Traceback (most recent call last):
+  File "C:\Users\shaib\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 915, in full_dispatch_request
+    rv = self.preprocess_request()
+  File "C:\Users\shaib\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1291, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+  File "C:\Users\shaib\OneDrive\Desktop\Salesforce Bulk API Data Ingestion System\app\middleware\logging.py", line 84, in before_request_hook
+    incoming_corr_id = request.headers.get(HEADER_CORRELATION_ID)
+                                           ^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'HEADER_CORRELATION_ID' is not defined
+
+[2026-10-24 21:00:47] [ERROR] [SYSTEM] [app:44] - Unhandled System Exception: name 'HEADER_CORRELATION_ID' is not defined
+Traceback (most recent call last):
+  File "C:\Users\shaib\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 915, in full_dispatch_request
+    rv = self.preprocess_request()
+  File "C:\Users\shaib\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1291, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+  File "C:\Users\shaib\OneDrive\Desktop\Salesforce Bulk API Data Ingestion System\app\middleware\logging.py", line 84, in before_request_hook
+    incoming_corr_id = request.headers.get(HEADER_CORRELATION_ID)
+                                           ^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'HEADER_CORRELATION_ID' is not defined
+
+[2026-10-24 21:01:03] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-10-24 21:01:03] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-10-24 21:01:42] [WARNING] [e2a88e66-e9e0-4004-88d8-591f5b79a3dd] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-10-24 21:01:42] [WARNING] [e2a88e66-e9e0-4004-88d8-591f5b79a3dd] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-10-24 21:01:51] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-10-24 21:01:51] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-10-24 21:06:47] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:06:47] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:06:47] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:06:47] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:06:47] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:06:47] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:06:47] [ERROR] [SYSTEM] [flask_migrate:113] - Error: Directory migrations already exists and is not empty
+[2026-10-24 21:06:59] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:06:59] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:06:59] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:06:59] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:06:59] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:06:59] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:07:15] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:07:15] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:07:15] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:07:15] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:07:15] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:07:15] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:07:29] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:07:29] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:07:29] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:07:29] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:07:29] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:07:29] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:08:21] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:08:21] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:08:21] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:08:21] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:08:21] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:08:21] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:09:05] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:09:05] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:09:05] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:09:05] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:09:05] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:09:05] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:09:13] [WARNING] [4e55d40f-f807-4375-8f7d-2b209dffe7fa] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-10-24 21:09:13] [WARNING] [4e55d40f-f807-4375-8f7d-2b209dffe7fa] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-10-24 21:09:28] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-10-24 21:09:28] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-10-24 21:09:30] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:09:30] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:09:30] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:09:30] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:09:30] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:09:30] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:13:50] [WARNING] [9cd64897-4e8a-491e-b633-8fd6f1c9a874] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-10-24 21:13:50] [WARNING] [9cd64897-4e8a-491e-b633-8fd6f1c9a874] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-10-24 21:13:56] [WARNING] [372f7d8e-6689-40e0-9ff7-17524f5619a4] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client_id - client identifier invalid
+[2026-10-24 21:13:56] [WARNING] [372f7d8e-6689-40e0-9ff7-17524f5619a4] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client_id - client identifier invalid
+[2026-10-24 21:13:56] [WARNING] [372f7d8e-6689-40e0-9ff7-17524f5619a4] [app:19] - Domain Exception Handled: [SALESFORCE_API_ERROR] Salesforce OAuth service error: client identifier invalid - Context: {'error': 'invalid_client_id'}
+[2026-10-24 21:13:56] [WARNING] [372f7d8e-6689-40e0-9ff7-17524f5619a4] [app:19] - Domain Exception Handled: [SALESFORCE_API_ERROR] Salesforce OAuth service error: client identifier invalid - Context: {'error': 'invalid_client_id'}
+[2026-10-24 21:13:57] [WARNING] [372f7d8e-6689-40e0-9ff7-17524f5619a4] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-10-24 21:13:57] [WARNING] [372f7d8e-6689-40e0-9ff7-17524f5619a4] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-10-24 21:13:57] [WARNING] [372f7d8e-6689-40e0-9ff7-17524f5619a4] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-10-24 21:13:57] [WARNING] [372f7d8e-6689-40e0-9ff7-17524f5619a4] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-10-24 21:13:57] [WARNING] [372f7d8e-6689-40e0-9ff7-17524f5619a4] [app.integrations.salesforce_client:97] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-10-24 21:13:57] [WARNING] [372f7d8e-6689-40e0-9ff7-17524f5619a4] [app.integrations.salesforce_client:97] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-10-24 21:14:23] [WARNING] [1d782cd9-45bf-4488-b9c0-816b444a7f57] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-10-24 21:14:23] [WARNING] [1d782cd9-45bf-4488-b9c0-816b444a7f57] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-10-24 21:14:23] [WARNING] [217b61b2-34a1-4ebb-975f-4ecc30326cc6] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-10-24 21:14:23] [WARNING] [217b61b2-34a1-4ebb-975f-4ecc30326cc6] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-10-24 21:14:23] [WARNING] [217b61b2-34a1-4ebb-975f-4ecc30326cc6] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-10-24 21:14:23] [WARNING] [217b61b2-34a1-4ebb-975f-4ecc30326cc6] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-10-24 21:14:23] [WARNING] [217b61b2-34a1-4ebb-975f-4ecc30326cc6] [app.integrations.salesforce_client:97] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-10-24 21:14:23] [WARNING] [217b61b2-34a1-4ebb-975f-4ecc30326cc6] [app.integrations.salesforce_client:97] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-10-24 21:15:21] [WARNING] [8227f786-3818-424f-88b9-d15f2baca749] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-10-24 21:15:21] [WARNING] [8227f786-3818-424f-88b9-d15f2baca749] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-10-24 21:15:21] [WARNING] [fafab221-3799-41c1-a41c-a8c2ac2931f3] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-10-24 21:15:21] [WARNING] [fafab221-3799-41c1-a41c-a8c2ac2931f3] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-10-24 21:15:21] [WARNING] [fafab221-3799-41c1-a41c-a8c2ac2931f3] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-10-24 21:15:21] [WARNING] [fafab221-3799-41c1-a41c-a8c2ac2931f3] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-10-24 21:15:21] [WARNING] [fafab221-3799-41c1-a41c-a8c2ac2931f3] [app.integrations.salesforce_client:97] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-10-24 21:15:21] [WARNING] [fafab221-3799-41c1-a41c-a8c2ac2931f3] [app.integrations.salesforce_client:97] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-10-24 21:15:34] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-10-24 21:15:34] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-10-24 21:15:36] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:15:36] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-10-24 21:15:36] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:15:36] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-10-24 21:15:36] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:15:36] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-10-24 21:23:55] [WARNING] [b5df2402-216c-4e76-93f1-2effd13be8b5] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-10-24 21:23:55] [WARNING] [b5df2402-216c-4e76-93f1-2effd13be8b5] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-10-24 21:23:55] [ERROR] [43fd43da-4c10-4b7b-b9c7-a9880e7f71bf] [app.services.polling_service:94] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-10-24 21:23:55] [ERROR] [43fd43da-4c10-4b7b-b9c7-a9880e7f71bf] [app.services.polling_service:94] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-10-24 21:23:55] [ERROR] [SYSTEM] [app.repositories.bulk_repository:96] - Failed to query IngestionJob by id dab6f678-b9f2-4d30-88b8-b6b846f0d88a: (builtins.AttributeError) 'str' object has no attribute 'hex'
+[SQL: SELECT bulk_ingestion_jobs.id AS bulk_ingestion_jobs_id, bulk_ingestion_jobs.sf_job_id AS bulk_ingestion_jobs_sf_job_id, bulk_ingestion_jobs.target_object AS bulk_ingestion_jobs_target_object, bulk_ingestion_jobs.operation AS bulk_ingestion_jobs_operation, bulk_ingestion_jobs.soql_query AS bulk_ingestion_jobs_soql_query, bulk_ingestion_jobs.status AS bulk_ingestion_jobs_status, bulk_ingestion_jobs.records_processed AS bulk_ingestion_jobs_records_processed, bulk_ingestion_jobs.records_ingested AS bulk_ingestion_jobs_records_ingested, bulk_ingestion_jobs.records_failed AS bulk_ingestion_jobs_records_failed, bulk_ingestion_jobs.execution_time_ms AS bulk_ingestion_jobs_execution_time_ms, bulk_ingestion_jobs.error_message AS bulk_ingestion_jobs_error_message, bulk_ingestion_jobs.started_at AS bulk_ingestion_jobs_started_at, bulk_ingestion_jobs.completed_at AS bulk_ingestion_jobs_completed_at, bulk_ingestion_jobs.created_at AS bulk_ingestion_jobs_created_at, bulk_ingestion_jobs.updated_at AS bulk_ingestion_jobs_updated_at 
+FROM bulk_ingestion_jobs 
+WHERE bulk_ingestion_jobs.id = ?
+ LIMIT ? OFFSET ?]
+[parameters: [{}]]
+[2026-10-24 21:23:55] [ERROR] [SYSTEM] [app.repositories.bulk_repository:96] - Failed to query IngestionJob by id dab6f678-b9f2-4d30-88b8-b6b846f0d88a: (builtins.AttributeError) 'str' object has no attribute 'hex'
+[SQL: SELECT bulk_ingestion_jobs.id AS bulk_ingestion_jobs_id, bulk_ingestion_jobs.sf_job_id AS bulk_ingestion_jobs_sf_job_id, bulk_ingestion_jobs.target_object AS bulk_ingestion_jobs_target_object, bulk_ingestion_jobs.operation AS bulk_ingestion_jobs_operation, bulk_ingestion_jobs.soql_query AS bulk_ingestion_jobs_soql_query, bulk_ingestion_jobs.status AS bulk_ingestion_jobs_status, bulk_ingestion_jobs.records_processed AS bulk_ingestion_jobs_records_processed, bulk_ingestion_jobs.records_ingested AS bulk_ingestion_jobs_records_ingested, bulk_ingestion_jobs.records_failed AS bulk_ingestion_jobs_records_failed, bulk_ingestion_jobs.execution_time_ms AS bulk_ingestion_jobs_execution_time_ms, bulk_ingestion_jobs.error_message AS bulk_ingestion_jobs_error_message, bulk_ingestion_jobs.started_at AS bulk_ingestion_jobs_started_at, bulk_ingestion_jobs.completed_at AS bulk_ingestion_jobs_completed_at, bulk_ingestion_jobs.created_at AS bulk_ingestion_jobs_created_at, bulk_ingestion_jobs.updated_at AS bulk_ingestion_jobs_updated_at 
+FROM bulk_ingestion_jobs 
+WHERE bulk_ingestion_jobs.id = ?
+ LIMIT ? OFFSET ?]
+[parameters: [{}]]
+[2026-10-24 21:23:55] [WARNING] [43fd43da-4c10-4b7b-b9c7-a9880e7f71bf] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-10-24 21:23:55] [WARNING] [43fd43da-4c10-4b7b-b9c7-a9880e7f71bf] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-10-24 21:23:55] [WARNING] [43fd43da-4c10-4b7b-b9c7-a9880e7f71bf] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-10-24 21:23:55] [WARNING] [43fd43da-4c10-4b7b-b9c7-a9880e7f71bf] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
