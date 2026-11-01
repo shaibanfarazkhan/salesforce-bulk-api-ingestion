@@ -117,6 +117,16 @@ class BulkJobException(AppException):
             details=details
         )
 
+class InvalidSOQLError(BulkJobException):
+    """Raised when an invalid SOQL query string is provided for Bulk API submission."""
+    def __init__(self, message: str, details: Optional[Dict[str, Any]] = None) -> None:
+        super().__init__(
+            message=message,
+            status_code=400,
+            details=details
+        )
+        self.error_code = "INVALID_SOQL"
+
 class PollingException(AppException):
     """Raised when Bulk API job status polling times out or transitions to a failed state."""
     def __init__(self, message: str, status_code: int = 504, details: Optional[Dict[str, Any]] = None) -> None:
@@ -126,6 +136,16 @@ class PollingException(AppException):
             error_code="POLLING_ERROR",
             details=details
         )
+
+class BulkQueryTimeoutError(PollingException):
+    """Raised when polling query results exceeds maximum allowed duration."""
+    def __init__(self, message: str, details: Optional[Dict[str, Any]] = None) -> None:
+        super().__init__(
+            message=message,
+            status_code=504,
+            details=details
+        )
+        self.error_code = "QUERY_TIMEOUT"
 
 class DownloadException(AppException):
     """Raised when CSV stream downloading from Salesforce storage fails."""

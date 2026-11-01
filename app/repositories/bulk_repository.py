@@ -9,6 +9,7 @@ import logging
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Tuple
 from datetime import datetime, timezone
+import uuid
 import sqlalchemy as sa
 from sqlalchemy.orm import Session
 from sqlalchemy.dialects.postgresql import insert as pg_insert
@@ -91,7 +92,13 @@ class BulkRepository(BaseRepository):
     def get_by_id(self, entity_id: Any) -> Optional[IngestionJob]:
         """Retrieve an IngestionJob by internal UUID primary key."""
         try:
-            return self.session.query(IngestionJob).filter_by(id=entity_id).first()
+            target_id = entity_id
+            if isinstance(entity_id, str):
+                try:
+                    target_id = uuid.UUID(entity_id)
+                except (ValueError, TypeError):
+                    return None
+            return self.session.query(IngestionJob).filter_by(id=target_id).first()
         except Exception as exc:
             logger.error(f"Failed to query IngestionJob by id {entity_id}: {str(exc)}")
             raise RepositoryException(f"Error querying IngestionJob by id: {str(exc)}") from exc

@@ -5,8 +5,9 @@ locators using memory-bounded generators, maintaining constant O(1) heap space.
 """
 
 import io
+import csv
 import logging
-from typing import Iterator, Optional
+from typing import Iterator, Optional, List, Dict, Any, Union
 import pandas as pd
 import requests
 
@@ -17,11 +18,33 @@ logger = logging.getLogger(__name__)
 
 class CSVStreamService:
     """
-    Streaming consumer for Bulk API 2.0 CSV query results.
+    Streaming consumer and parser for Bulk API 2.0 CSV query results.
+    Converts streaming raw CSV bytes/strings into Pandas DataFrames and
+    structured JSON objects with memory-bounded chunk consumption.
     """
 
     def __init__(self, salesforce_client: Optional[SalesforceClient] = None) -> None:
         self.salesforce_client = salesforce_client or SalesforceClient()
+
+    def parse_csv_to_records(self, csv_content: Union[str, io.StringIO]) -> List[Dict[str, Any]]:
+        """
+        Parse raw CSV text into a structured list of JSON/dictionary objects.
+        Preserves string data integrity, handles missing values and quoted fields.
+        """
+        if isinstance(csv_content, str):
+            if not csv_content.strip():
+                return []
+            f = io.StringIO(csv_content.strip())
+        else:
+            f = csv_content
+
+        try:
+            reader = csv.DictReader(f)
+            records = [dict(row) for row in reader]
+            return records
+        except Exception as exc:
+            logger.error(f"Failed to parse CSV string into records: {str(exc)}")
+            raise CSVException(f"Failed to parse CSV string: {str(exc)}") from exc
 
     def stream_csv_chunks(
         self,
@@ -45,6 +68,7 @@ class CSVStreamService:
         locator: Optional[str] = None
         has_more_data = True
         total_chunks = 0
+        total_records = 0
 
         logger.info(f"Initiating paginated CSV stream download for Bulk Job {sf_job_id}...")
 
@@ -81,9 +105,11 @@ class CSVStreamService:
                     na_values=["#N/A", "#N/A N/A", "#NA", "-1.#IND", "-1.#QNAN", "-NaN", "-nan", "1.#IND", "1.#QNAN"]
                 )
 
+                chunk_len = len(df_chunk)
+                total_records += chunk_len
                 logger.info(
                     f"Successfully parsed chunk #{total_chunks} "
-                    f"({len(df_chunk)} rows, columns: {list(df_chunk.columns[:5])}...)"
+                    f"({chunk_len} rows, total so far: {total_records})"
                 )
                 yield df_chunk
 
@@ -98,4 +124,41 @@ class CSVStreamService:
             locator = next_locator
             if not locator or locator.lower() in ("null", "none"):
                 has_more_data = False
-                logger.info(f"Reached final cursor locator for Bulk Job {sf_job_id}. Stream complete.")
+                logger.info(
+                    f"Reached final cursor locator for Bulk Job {sf_job_id}. "
+                    f"Stream complete: {total_chunks} chunk(s), {total_records} record(s)."
+                )
+
+    def stream_json_records(
+        self,
+        sf_job_id: str,
+        chunk_size: int = 10000
+    ) -> Iterator[List[Dict[str, Any]]]:
+        """
+        Stream Bulk API 2.0 query results and yield chunks as structured JSON/dictionary objects.
+        """
+        for df_chunk in self.stream_csv_chunks(sf_job_id=sf_job_id, chunk_size=chunk_size):
+            records = df_chunk.to_dict(orient="records")
+            yield records
+
+    def download_all_records_as_json(
+        self,
+        sf_job_id: str,
+        max_records: Optional[int] = None,
+        chunk_size: int = 10000
+    ) -> List[Dict[str, Any]]:
+        """
+        Download all query results across all paginated locators and return as structured JSON records.
+        """
+        all_records: List[Dict[str, Any]] = []
+        logger.info(f"Downloading all structured records for Bulk Job {sf_job_id}...")
+
+        for chunk in self.stream_json_records(sf_job_id=sf_job_id, chunk_size=chunk_size):
+            all_records.extend(chunk)
+            if max_records and len(all_records) >= max_records:
+                all_records = all_records[:max_records]
+                logger.info(f"Reached requested max_records ceiling ({max_records}). Stopping download.")
+                break
+
+        logger.info(f"Downloaded total {len(all_records)} structured JSON records for Bulk Job {sf_job_id}.")
+        return all_records

@@ -6,6 +6,7 @@ Governor Limit tracking, connection pooling, and request telemetry.
 """
 
 import time
+import re
 import uuid
 import logging
 from typing import Dict, Any, Optional, Tuple, Iterator
@@ -19,6 +20,8 @@ from app.utils.exceptions import (
     SalesforceAPIError,
     RateLimitExceededError,
     BulkJobException,
+    InvalidSOQLError,
+    ResourceNotFoundError,
     DownloadException
 )
 from app.utils.telemetry import metrics_collector
@@ -141,20 +144,72 @@ class SalesforceClient:
         return response
 
     # ==========================================================================
+    # HTTP Method Wrappers for Salesforce REST APIs
+    # ==========================================================================
+    def get(
+        self,
+        path: str,
+        params: Optional[Dict[str, Any]] = None,
+        headers: Optional[Dict[str, str]] = None,
+        stream: bool = False,
+        **kwargs
+    ) -> requests.Response:
+        """Execute an authenticated HTTP GET request against Salesforce."""
+        return self.request(method="GET", path=path, params=params, headers=headers, stream=stream, **kwargs)
+
+    def post(
+        self,
+        path: str,
+        data: Optional[Any] = None,
+        json: Optional[Any] = None,
+        params: Optional[Dict[str, Any]] = None,
+        headers: Optional[Dict[str, str]] = None,
+        **kwargs
+    ) -> requests.Response:
+        """Execute an authenticated HTTP POST request against Salesforce."""
+        return self.request(method="POST", path=path, data=data, json=json, params=params, headers=headers, **kwargs)
+
+    def patch(
+        self,
+        path: str,
+        data: Optional[Any] = None,
+        json: Optional[Any] = None,
+        headers: Optional[Dict[str, str]] = None,
+        **kwargs
+    ) -> requests.Response:
+        """Execute an authenticated HTTP PATCH request against Salesforce."""
+        return self.request(method="PATCH", path=path, data=data, json=json, headers=headers, **kwargs)
+
+    def delete(
+        self,
+        path: str,
+        headers: Optional[Dict[str, str]] = None,
+        **kwargs
+    ) -> requests.Response:
+        """Execute an authenticated HTTP DELETE request against Salesforce."""
+        return self.request(method="DELETE", path=path, headers=headers, **kwargs)
+
+    # ==========================================================================
     # Bulk API 2.0 Query Job Lifecycle Methods
     # ==========================================================================
-    def create_query_job(self, soql_query: str, target_object: str = "Account") -> Dict[str, Any]:
+    def create_query_job(self, soql_query: str, target_object: Optional[str] = "Account") -> Dict[str, Any]:
         """
         Submit a new Bulk API 2.0 query job.
         
         Endpoint: POST /services/data/vXX.X/jobs/query
         """
+        if not soql_query or not isinstance(soql_query, str):
+            raise InvalidSOQLError("SOQL query string cannot be empty or null.")
+
         soql = soql_query.strip()
         if not soql.upper().startswith("SELECT") or " FROM " not in soql.upper():
-            raise BulkJobException(
-                message=f"Invalid SOQL query expression: '{soql}'. Must be a valid SELECT ... FROM statement.",
-                status_code=400
+            raise InvalidSOQLError(
+                f"Invalid SOQL query expression: '{soql}'. Must be a valid SELECT ... FROM statement."
             )
+
+        if not target_object:
+            match = re.search(r"\bFROM\s+([a-zA-Z0-9_]+)", soql, re.IGNORECASE)
+            target_object = match.group(1) if match else "Account"
 
         path = f"/services/data/{self.api_version}/jobs/query"
         payload = {
@@ -168,7 +223,7 @@ class SalesforceClient:
         logger.info(f"Submitting Bulk API 2.0 query job for entity '{target_object}'...")
         response = self.request("POST", path, json=payload)
 
-        if response.status_code != 200:
+        if response.status_code not in (200, 201):
             raise BulkJobException(
                 message=f"Failed to create Bulk API 2.0 query job: {response.text}",
                 status_code=response.status_code,
@@ -178,7 +233,7 @@ class SalesforceClient:
         job_data = response.json()
         logger.info(
             f"Bulk API 2.0 query job created: id={job_data.get('id')}, "
-            f"state={job_data.get('state')}, object={job_data.get('object')}"
+            f"state={job_data.get('state')}, object={job_data.get('object', target_object)}"
         )
         return job_data
 
@@ -218,6 +273,38 @@ class SalesforceClient:
             )
 
         return response.json()
+
+    def delete_query_job(self, sf_job_id: str) -> Dict[str, Any]:
+        """
+        Delete a Bulk API 2.0 query job on Salesforce (Cleanup).
+        
+        Endpoint: DELETE /services/data/vXX.X/jobs/query/{jobId}
+        Salesforce returns HTTP 204 No Content upon successful deletion.
+        """
+        path = f"/services/data/{self.api_version}/jobs/query/{sf_job_id}"
+        logger.info(f"Deleting Bulk API 2.0 query job for cleanup: {sf_job_id}")
+        response = self.request("DELETE", path)
+
+        if response.status_code in (200, 204):
+            logger.info(f"Successfully deleted Bulk API query job {sf_job_id}")
+            return {
+                "id": sf_job_id,
+                "deleted": True,
+                "status": "DELETED",
+                "message": f"Job {sf_job_id} deleted successfully from Salesforce."
+            }
+        elif response.status_code == 404:
+            logger.warning(f"Bulk query job {sf_job_id} not found during cleanup.")
+            raise ResourceNotFoundError(
+                message=f"Bulk API query job {sf_job_id} not found on Salesforce.",
+                status_code=404
+            )
+        else:
+            raise BulkJobException(
+                message=f"Failed to delete Bulk API query job {sf_job_id}: {response.text}",
+                status_code=response.status_code,
+                details={"response": response.text}
+            )
 
     def get_job_results_stream(
         self,
@@ -261,3 +348,27 @@ class SalesforceClient:
             next_locator = None
 
         return response, next_locator
+
+    def download_job_results_csv(
+        self,
+        sf_job_id: str,
+        locator: Optional[str] = None,
+        max_records: int = 10000
+    ) -> Tuple[str, Optional[str]]:
+        """
+        Download a single page of Bulk API query CSV results as text.
+        
+        Returns:
+            Tuple[str, Optional[str]]: (csv_content_string, next_locator)
+        """
+        response, next_locator = self.get_job_results_stream(
+            sf_job_id=sf_job_id,
+            locator=locator,
+            max_records=max_records
+        )
+        csv_text = response.text
+        logger.info(
+            f"Downloaded CSV results chunk for job {sf_job_id} "
+            f"(size: {len(csv_text)} bytes, next_locator: {next_locator})"
+        )
+        return csv_text, next_locator

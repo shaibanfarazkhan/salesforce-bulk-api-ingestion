@@ -92,6 +92,51 @@ class BulkController:
             status_code=200
         )
 
+    def abort_job(self, job_id: str) -> Tuple[Response, int]:
+        """
+        DELETE /bulk/jobs/<id>
+        Abort an active Bulk API query job.
+        """
+        return self.cancel_job(job_id=job_id)
+
+    def delete_job(self, job_id: str) -> Tuple[Response, int]:
+        """
+        DELETE /bulk/jobs/<id>/cleanup
+        Delete/cleanup a Bulk API query job from Salesforce.
+        """
+        result = self.bulk_service.delete_job(job_identifier=job_id)
+        return ResponseBuilder.success(
+            data=result,
+            message=f"Job '{job_id}' cleaned up successfully",
+            status_code=200
+        )
+
+    def poll_job(self, job_id: str) -> Tuple[Response, int]:
+        """
+        POST /bulk/jobs/<id>/poll
+        Poll a Bulk API query job until completion.
+        """
+        timeout = request.args.get("timeout", default=900, type=int)
+        result = self.bulk_service.poll_job(job_identifier=job_id, timeout_seconds=timeout)
+        return ResponseBuilder.success(
+            data=result,
+            message=f"Job '{job_id}' polling completed successfully",
+            status_code=200
+        )
+
+    def download_results(self, job_id: str) -> Tuple[Response, int]:
+        """
+        GET /bulk/jobs/<id>/results
+        Download CSV results for a completed job converted into structured JSON records.
+        """
+        max_records = request.args.get("max_records", default=None, type=int)
+        result = self.bulk_service.download_job_results(job_identifier=job_id, max_records=max_records)
+        return ResponseBuilder.success(
+            data=result,
+            message=f"Results for job '{job_id}' downloaded successfully",
+            status_code=200
+        )
+
     def get_job_status(self, job_id: str) -> Tuple[Response, int]:
         """
         GET /bulk/jobs/<id>/status
@@ -133,7 +178,7 @@ class BulkController:
         """
         jobs = self.bulk_service.list_jobs(limit=10)
         return ResponseBuilder.success(
-            data={"recent_jobs": jobs},
+            data={"recent_jobs": jobs, "logs": jobs},
             message="Application logs retrieved successfully",
             status_code=200
         )

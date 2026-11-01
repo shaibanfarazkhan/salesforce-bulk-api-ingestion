@@ -64,6 +64,16 @@ def get_bulk_job_status(job_id: str):
     """Retrieve real-time status of a specific Bulk API query job."""
     return bulk_ctrl.get_job_status(job_id=job_id)
 
+@api_bp.route("/bulk/jobs/<string:job_id>/poll", methods=["POST"])
+def poll_bulk_job(job_id: str):
+    """Poll Bulk API query job until JobComplete state."""
+    return bulk_ctrl.poll_job(job_id=job_id)
+
+@api_bp.route("/bulk/jobs/<string:job_id>/results", methods=["GET"])
+def download_bulk_job_results(job_id: str):
+    """Download results of a Bulk API query job as structured JSON."""
+    return bulk_ctrl.download_results(job_id=job_id)
+
 @api_bp.route("/bulk/jobs/<string:job_id>/start", methods=["POST"])
 def start_bulk_job(job_id: str):
     """Start ingestion pipeline execution for an existing Bulk API job."""
@@ -78,6 +88,11 @@ def cancel_bulk_job(job_id: str):
 def abort_bulk_job(job_id: str):
     """Abort an active query job."""
     return bulk_ctrl.abort_job(job_id=job_id)
+
+@api_bp.route("/bulk/jobs/<string:job_id>/cleanup", methods=["DELETE"])
+def cleanup_bulk_job(job_id: str):
+    """Delete/cleanup a completed or aborted query job from Salesforce."""
+    return bulk_ctrl.delete_job(job_id=job_id)
 
 # ==============================================================================
 # Ingestion Pipeline & Logs Endpoints

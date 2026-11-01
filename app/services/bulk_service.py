@@ -235,6 +235,114 @@ class BulkService:
             "message": "Bulk query job successfully aborted."
         }
 
+    def delete_job(self, job_identifier: str) -> Dict[str, Any]:
+        """
+        Delete/cleanup a Bulk API query job on Salesforce and record audit log.
+        """
+        job = self._find_job(job_identifier)
+        sf_job_id = job.sf_job_id
+
+        # Delete on Salesforce
+        del_resp = self.salesforce_client.delete_query_job(sf_job_id=sf_job_id)
+
+        self.bulk_repo.insert_logs([{
+            "job_id": job.id,
+            "action": "JOB_DELETED",
+            "entity_type": job.target_object,
+            "record_count": 0,
+            "message": f"Bulk job {sf_job_id} deleted for cleanup.",
+            "payload": del_resp
+        }])
+
+        return {
+            "job_id": str(job.id),
+            "sf_job_id": sf_job_id,
+            "status": "DELETED",
+            "message": f"Bulk query job {sf_job_id} successfully cleaned up."
+        }
+
+    def poll_job(
+        self,
+        job_identifier: str,
+        base_interval: float = 2.0,
+        max_interval: float = 30.0,
+        timeout_seconds: int = 900
+    ) -> Dict[str, Any]:
+        """
+        Poll Bulk API query job until completion and update internal audit state.
+        """
+        job = self._find_job(job_identifier)
+        sf_job_id = job.sf_job_id
+
+        logger.info(f"Polling job {job.id} (sf_job_id={sf_job_id}) until completion...")
+        polled_status = self.polling_service.poll_until_complete(
+            sf_job_id=sf_job_id,
+            base_interval=base_interval,
+            max_interval=max_interval,
+            timeout_seconds=timeout_seconds
+        )
+
+        records_processed = polled_status.get("numberRecordsProcessed", 0)
+        job.records_processed = records_processed
+        job.status = IngestionStatus.COMPLETED.value
+        job.completed_at = datetime.now(timezone.utc)
+        self.bulk_repo.update_job(job)
+
+        self.bulk_repo.insert_logs([{
+            "job_id": job.id,
+            "action": "JOB_POLL_COMPLETED",
+            "entity_type": job.target_object,
+            "record_count": records_processed,
+            "message": f"Bulk API query job {sf_job_id} reached terminal JobComplete status.",
+            "payload": polled_status
+        }])
+
+        return {
+            "job_id": str(job.id),
+            "sf_job_id": sf_job_id,
+            "target_object": job.target_object,
+            "status": job.status,
+            "records_processed": records_processed,
+            "total_polling_time_seconds": polled_status.get("total_polling_time_seconds"),
+            "polling_attempts": polled_status.get("polling_attempts")
+        }
+
+    def download_job_results(
+        self,
+        job_identifier: str,
+        max_records: Optional[int] = None,
+        chunk_size: int = 10000
+    ) -> Dict[str, Any]:
+        """
+        Download CSV results for a Bulk API query job and return structured JSON records.
+        """
+        job = self._find_job(job_identifier)
+        sf_job_id = job.sf_job_id
+
+        logger.info(f"Downloading query results for job {job.id} (sf_job_id={sf_job_id})...")
+        records = self.stream_service.download_all_records_as_json(
+            sf_job_id=sf_job_id,
+            max_records=max_records,
+            chunk_size=chunk_size
+        )
+
+        self.bulk_repo.insert_logs([{
+            "job_id": job.id,
+            "action": "RESULTS_DOWNLOADED",
+            "entity_type": job.target_object,
+            "record_count": len(records),
+            "message": f"Downloaded {len(records)} records for job {sf_job_id}.",
+            "payload": {"record_count": len(records)}
+        }])
+
+        return {
+            "job_id": str(job.id),
+            "sf_job_id": sf_job_id,
+            "target_object": job.target_object,
+            "record_count": len(records),
+            "records": records
+        }
+
     def get_job_status(self, job_identifier: str) -> Dict[str, Any]:
         """Retrieve real-time status from Salesforce combined with local audit metrics."""
         job = self._find_job(job_identifier)

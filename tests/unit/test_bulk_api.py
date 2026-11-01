@@ -323,3 +323,96 @@ def test_bulk_service_abort_job(app, mock_client):
         job = repo.get_by_id(job_id)
         assert job.status == "ABORTED"
         mock_client.abort_query_job.assert_called_once_with(sf_job_id="750300000001CAN001")
+
+# ==============================================================================
+# 8. Phase 6 Bulk API 2.0 Feature Tests (Cleanup, Polling, Results JSON)
+# ==============================================================================
+def test_client_delete_query_job_success():
+    """Verify Bulk API DELETE query job sends HTTP DELETE and handles 204."""
+    client = SalesforceClient()
+    mock_resp = MagicMock(spec=requests.Response)
+    mock_resp.status_code = 204
+
+    with patch.object(client, "request", return_value=mock_resp) as mock_req:
+        result = client.delete_query_job("750300000001DEL001")
+        assert result["deleted"] is True
+        assert result["status"] == "DELETED"
+        mock_req.assert_called_once_with("DELETE", "/services/data/v62.0/jobs/query/750300000001DEL001")
+
+def test_polling_service_transient_failure_recovery(mock_client):
+    """Verify polling recovers from transient 503 error and finishes upon JobComplete."""
+    from app.utils.exceptions import SalesforceAPIError
+    poller = PollingService(salesforce_client=mock_client)
+    mock_client.get_job_status.side_effect = [
+        SalesforceAPIError("Transient 503 Service Unavailable", status_code=503),
+        {"id": "7501", "state": "InProgress", "numberRecordsProcessed": 50},
+        {"id": "7501", "state": "JobComplete", "numberRecordsProcessed": 100}
+    ]
+
+    with patch("time.sleep", return_value=None):
+        result = poller.poll_until_complete("7501", base_interval=0.01, max_interval=0.05)
+        assert result["state"] == "JobComplete"
+        assert result["numberRecordsProcessed"] == 100
+        assert mock_client.get_job_status.call_count == 3
+
+def test_polling_service_timeout(mock_client):
+    """Verify polling raises BulkQueryTimeoutError when timeout is reached."""
+    from app.utils.exceptions import BulkQueryTimeoutError
+    poller = PollingService(salesforce_client=mock_client)
+    mock_client.get_job_status.return_value = {"id": "7501", "state": "InProgress"}
+
+    clock = [100.0]
+    def fake_time():
+        val = clock[0]
+        clock[0] += 6.0
+        return val
+
+    with patch("time.time", side_effect=fake_time), patch("time.sleep", return_value=None):
+        with pytest.raises(BulkQueryTimeoutError) as exc_info:
+            poller.poll_until_complete("7501", timeout_seconds=10)
+        assert "Polling exceeded timeout threshold" in str(exc_info.value)
+
+def test_csv_stream_to_json_records(mock_client):
+    """Verify CSV results streaming converted directly to structured JSON objects."""
+    stream_service = CSVStreamService(salesforce_client=mock_client)
+    resp1 = MagicMock(spec=requests.Response)
+    resp1.iter_lines.return_value = [
+        "Id,Name,Type",
+        "001001,Acme Corp,Customer",
+        "001002,Global Tech,Partner"
+    ]
+    resp2 = MagicMock(spec=requests.Response)
+    resp2.iter_lines.return_value = [
+        "Id,Name,Type",
+        "001003,Stark Industries,Enterprise"
+    ]
+
+    mock_client.get_job_results_stream.side_effect = [
+        (resp1, "LOCATOR_PAGE_2"),
+        (resp2, None)
+    ]
+
+    records = stream_service.download_all_records_as_json("7501", chunk_size=2)
+    assert len(records) == 3
+    assert records[0]["Name"] == "Acme Corp"
+    assert records[1]["Name"] == "Global Tech"
+    assert records[2]["Name"] == "Stark Industries"
+
+def test_bulk_service_delete_cleanup_job(app, mock_client):
+    """Verify BulkService coordinates delete job cleanup and audit logging."""
+    with app.app_context():
+        repo = BulkRepository()
+        bulk_service = BulkService(salesforce_client=mock_client, bulk_repo=repo)
+
+        mock_client.create_query_job.return_value = {
+            "id": "750300000001CLN001",
+            "operation": "query",
+            "object": "Account"
+        }
+        job_info = bulk_service.create_job("Account", "SELECT Id FROM Account")
+        job_id = job_info["job_id"]
+
+        mock_client.delete_query_job.return_value = {"id": "750300000001CLN001", "deleted": True}
+        cleanup_res = bulk_service.delete_job(job_id)
+        assert cleanup_res["status"] == "DELETED"
+        mock_client.delete_query_job.assert_called_once_with(sf_job_id="750300000001CLN001")

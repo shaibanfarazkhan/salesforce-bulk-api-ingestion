@@ -131,3 +131,111 @@ WHERE bulk_ingestion_jobs.id = ?
 [2026-10-24 21:23:55] [WARNING] [43fd43da-4c10-4b7b-b9c7-a9880e7f71bf] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
 [2026-10-24 21:23:55] [WARNING] [43fd43da-4c10-4b7b-b9c7-a9880e7f71bf] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
 [2026-10-24 21:23:55] [WARNING] [43fd43da-4c10-4b7b-b9c7-a9880e7f71bf] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:43:43] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-11-01 09:43:43] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-11-01 09:43:54] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-11-01 09:43:54] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-11-01 09:43:54] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-11-01 09:43:54] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-11-01 09:43:54] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-11-01 09:43:54] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-11-01 09:44:40] [WARNING] [7f61c2df-a100-43f6-84b2-241359b47997] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-11-01 09:44:40] [WARNING] [7f61c2df-a100-43f6-84b2-241359b47997] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-11-01 09:44:40] [ERROR] [24639acb-5f20-4608-a42d-7ab057f9fc99] [app.services.polling_service:94] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-11-01 09:44:40] [ERROR] [24639acb-5f20-4608-a42d-7ab057f9fc99] [app.services.polling_service:94] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-11-01 09:44:40] [ERROR] [SYSTEM] [app.repositories.bulk_repository:96] - Failed to query IngestionJob by id 927d3f4e-6f32-4dcd-a5a7-da87c12efd17: (builtins.AttributeError) 'str' object has no attribute 'hex'
+[SQL: SELECT bulk_ingestion_jobs.id AS bulk_ingestion_jobs_id, bulk_ingestion_jobs.sf_job_id AS bulk_ingestion_jobs_sf_job_id, bulk_ingestion_jobs.target_object AS bulk_ingestion_jobs_target_object, bulk_ingestion_jobs.operation AS bulk_ingestion_jobs_operation, bulk_ingestion_jobs.soql_query AS bulk_ingestion_jobs_soql_query, bulk_ingestion_jobs.status AS bulk_ingestion_jobs_status, bulk_ingestion_jobs.records_processed AS bulk_ingestion_jobs_records_processed, bulk_ingestion_jobs.records_ingested AS bulk_ingestion_jobs_records_ingested, bulk_ingestion_jobs.records_failed AS bulk_ingestion_jobs_records_failed, bulk_ingestion_jobs.execution_time_ms AS bulk_ingestion_jobs_execution_time_ms, bulk_ingestion_jobs.error_message AS bulk_ingestion_jobs_error_message, bulk_ingestion_jobs.started_at AS bulk_ingestion_jobs_started_at, bulk_ingestion_jobs.completed_at AS bulk_ingestion_jobs_completed_at, bulk_ingestion_jobs.created_at AS bulk_ingestion_jobs_created_at, bulk_ingestion_jobs.updated_at AS bulk_ingestion_jobs_updated_at 
+FROM bulk_ingestion_jobs 
+WHERE bulk_ingestion_jobs.id = ?
+ LIMIT ? OFFSET ?]
+[parameters: [{}]]
+[2026-11-01 09:44:40] [ERROR] [SYSTEM] [app.repositories.bulk_repository:96] - Failed to query IngestionJob by id 927d3f4e-6f32-4dcd-a5a7-da87c12efd17: (builtins.AttributeError) 'str' object has no attribute 'hex'
+[SQL: SELECT bulk_ingestion_jobs.id AS bulk_ingestion_jobs_id, bulk_ingestion_jobs.sf_job_id AS bulk_ingestion_jobs_sf_job_id, bulk_ingestion_jobs.target_object AS bulk_ingestion_jobs_target_object, bulk_ingestion_jobs.operation AS bulk_ingestion_jobs_operation, bulk_ingestion_jobs.soql_query AS bulk_ingestion_jobs_soql_query, bulk_ingestion_jobs.status AS bulk_ingestion_jobs_status, bulk_ingestion_jobs.records_processed AS bulk_ingestion_jobs_records_processed, bulk_ingestion_jobs.records_ingested AS bulk_ingestion_jobs_records_ingested, bulk_ingestion_jobs.records_failed AS bulk_ingestion_jobs_records_failed, bulk_ingestion_jobs.execution_time_ms AS bulk_ingestion_jobs_execution_time_ms, bulk_ingestion_jobs.error_message AS bulk_ingestion_jobs_error_message, bulk_ingestion_jobs.started_at AS bulk_ingestion_jobs_started_at, bulk_ingestion_jobs.completed_at AS bulk_ingestion_jobs_completed_at, bulk_ingestion_jobs.created_at AS bulk_ingestion_jobs_created_at, bulk_ingestion_jobs.updated_at AS bulk_ingestion_jobs_updated_at 
+FROM bulk_ingestion_jobs 
+WHERE bulk_ingestion_jobs.id = ?
+ LIMIT ? OFFSET ?]
+[parameters: [{}]]
+[2026-11-01 09:44:42] [WARNING] [24639acb-5f20-4608-a42d-7ab057f9fc99] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-11-01 09:44:42] [WARNING] [24639acb-5f20-4608-a42d-7ab057f9fc99] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-11-01 09:44:42] [WARNING] [24639acb-5f20-4608-a42d-7ab057f9fc99] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:44:42] [WARNING] [24639acb-5f20-4608-a42d-7ab057f9fc99] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:49:30] [WARNING] [ba870ea8-81d9-4b81-a72b-c83afdf79b0d] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-11-01 09:49:30] [WARNING] [ba870ea8-81d9-4b81-a72b-c83afdf79b0d] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-11-01 09:49:30] [ERROR] [60c22854-5219-4cdd-a832-a03729ed2544] [app.services.polling_service:94] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-11-01 09:49:30] [ERROR] [60c22854-5219-4cdd-a832-a03729ed2544] [app.services.polling_service:94] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-11-01 09:49:31] [WARNING] [60c22854-5219-4cdd-a832-a03729ed2544] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-11-01 09:49:31] [WARNING] [60c22854-5219-4cdd-a832-a03729ed2544] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-11-01 09:49:31] [WARNING] [60c22854-5219-4cdd-a832-a03729ed2544] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:49:31] [WARNING] [60c22854-5219-4cdd-a832-a03729ed2544] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:49:31] [WARNING] [60c22854-5219-4cdd-a832-a03729ed2544] [app.integrations.salesforce_client:125] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-11-01 09:49:31] [WARNING] [60c22854-5219-4cdd-a832-a03729ed2544] [app.integrations.salesforce_client:125] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-11-01 09:51:54] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-11-01 09:51:54] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-11-01 09:52:03] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-11-01 09:52:03] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-11-01 09:52:03] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-11-01 09:52:03] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-11-01 09:52:03] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-11-01 09:52:03] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-11-01 09:52:50] [WARNING] [fdc6c8e3-d031-43fd-b4f8-41182e54d1af] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-11-01 09:52:50] [WARNING] [fdc6c8e3-d031-43fd-b4f8-41182e54d1af] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-11-01 09:52:50] [ERROR] [4a59fbf3-555d-47a9-a9f8-9bfd92e14dc4] [app.services.polling_service:155] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-11-01 09:52:50] [ERROR] [4a59fbf3-555d-47a9-a9f8-9bfd92e14dc4] [app.services.polling_service:155] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-11-01 09:52:50] [WARNING] [4a59fbf3-555d-47a9-a9f8-9bfd92e14dc4] [app.services.polling_service:120] - [Attempt 1] Transient error polling job 7501 (1/3): Transient 503 Service Unavailable
+[2026-11-01 09:52:50] [WARNING] [4a59fbf3-555d-47a9-a9f8-9bfd92e14dc4] [app.services.polling_service:120] - [Attempt 1] Transient error polling job 7501 (1/3): Transient 503 Service Unavailable
+[2026-11-01 09:52:53] [WARNING] [4a59fbf3-555d-47a9-a9f8-9bfd92e14dc4] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-11-01 09:52:53] [WARNING] [4a59fbf3-555d-47a9-a9f8-9bfd92e14dc4] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-11-01 09:52:53] [WARNING] [4a59fbf3-555d-47a9-a9f8-9bfd92e14dc4] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:52:53] [WARNING] [4a59fbf3-555d-47a9-a9f8-9bfd92e14dc4] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:52:53] [WARNING] [4a59fbf3-555d-47a9-a9f8-9bfd92e14dc4] [app.integrations.salesforce_client:125] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-11-01 09:52:53] [WARNING] [4a59fbf3-555d-47a9-a9f8-9bfd92e14dc4] [app.integrations.salesforce_client:125] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-11-01 09:53:17] [WARNING] [769c5fa8-153b-48ca-8737-e51f32dc4b08] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-11-01 09:53:17] [WARNING] [769c5fa8-153b-48ca-8737-e51f32dc4b08] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-11-01 09:53:17] [ERROR] [ad8d95a0-9033-481b-8ecd-dd0b3bc590cd] [app.services.polling_service:155] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-11-01 09:53:17] [ERROR] [ad8d95a0-9033-481b-8ecd-dd0b3bc590cd] [app.services.polling_service:155] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-11-01 09:53:18] [WARNING] [ad8d95a0-9033-481b-8ecd-dd0b3bc590cd] [app.services.polling_service:120] - [Attempt 1] Transient error polling job 7501 (1/3): Transient 503 Service Unavailable
+[2026-11-01 09:53:18] [WARNING] [ad8d95a0-9033-481b-8ecd-dd0b3bc590cd] [app.services.polling_service:120] - [Attempt 1] Transient error polling job 7501 (1/3): Transient 503 Service Unavailable
+[2026-11-01 09:53:18] [ERROR] [ad8d95a0-9033-481b-8ecd-dd0b3bc590cd] [app.services.polling_service:107] - Polling exceeded timeout of 10s for job 7501
+[2026-11-01 09:53:18] [ERROR] [ad8d95a0-9033-481b-8ecd-dd0b3bc590cd] [app.services.polling_service:107] - Polling exceeded timeout of 10s for job 7501
+[2026-11-01 09:53:18] [WARNING] [ad8d95a0-9033-481b-8ecd-dd0b3bc590cd] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-11-01 09:53:18] [WARNING] [ad8d95a0-9033-481b-8ecd-dd0b3bc590cd] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-11-01 09:53:18] [WARNING] [ad8d95a0-9033-481b-8ecd-dd0b3bc590cd] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:53:18] [WARNING] [ad8d95a0-9033-481b-8ecd-dd0b3bc590cd] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:53:18] [WARNING] [ad8d95a0-9033-481b-8ecd-dd0b3bc590cd] [app.integrations.salesforce_client:125] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-11-01 09:53:18] [WARNING] [ad8d95a0-9033-481b-8ecd-dd0b3bc590cd] [app.integrations.salesforce_client:125] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-11-01 09:54:46] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-11-01 09:54:46] [WARNING] [SYSTEM] [app:141] - Phase 3 verification test log entry.
+[2026-11-01 09:54:53] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-11-01 09:54:53] [INFO] [SYSTEM] [app:75] - Enterprise logging system initialized.
+[2026-11-01 09:54:53] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-11-01 09:54:53] [INFO] [SYSTEM] [app:45] - SQLAlchemy and Flask-Migrate extensions successfully initialized.
+[2026-11-01 09:54:53] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-11-01 09:54:53] [INFO] [SYSTEM] [app:50] - Application initialized successfully in 'development' mode.
+[2026-11-01 09:55:26] [WARNING] [c90bb44e-5757-4910-9bc1-cff1a262d162] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-11-01 09:55:26] [WARNING] [c90bb44e-5757-4910-9bc1-cff1a262d162] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-11-01 09:55:26] [ERROR] [0e033734-1a60-48a7-8743-ab4b2066b4c6] [app.services.polling_service:155] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-11-01 09:55:26] [ERROR] [0e033734-1a60-48a7-8743-ab4b2066b4c6] [app.services.polling_service:155] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-11-01 09:55:26] [WARNING] [0e033734-1a60-48a7-8743-ab4b2066b4c6] [app.services.polling_service:120] - [Attempt 1] Transient error polling job 7501 (1/3): Transient 503 Service Unavailable
+[2026-11-01 09:55:26] [WARNING] [0e033734-1a60-48a7-8743-ab4b2066b4c6] [app.services.polling_service:120] - [Attempt 1] Transient error polling job 7501 (1/3): Transient 503 Service Unavailable
+[2026-11-01 09:55:26] [ERROR] [0e033734-1a60-48a7-8743-ab4b2066b4c6] [app.services.polling_service:107] - Polling exceeded timeout of 10s for job 7501
+[2026-11-01 09:55:26] [ERROR] [0e033734-1a60-48a7-8743-ab4b2066b4c6] [app.services.polling_service:107] - Polling exceeded timeout of 10s for job 7501
+[2026-11-01 09:55:27] [WARNING] [0e033734-1a60-48a7-8743-ab4b2066b4c6] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-11-01 09:55:27] [WARNING] [0e033734-1a60-48a7-8743-ab4b2066b4c6] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-11-01 09:55:27] [WARNING] [0e033734-1a60-48a7-8743-ab4b2066b4c6] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:55:27] [WARNING] [0e033734-1a60-48a7-8743-ab4b2066b4c6] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:55:27] [WARNING] [0e033734-1a60-48a7-8743-ab4b2066b4c6] [app.integrations.salesforce_client:125] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-11-01 09:55:27] [WARNING] [0e033734-1a60-48a7-8743-ab4b2066b4c6] [app.integrations.salesforce_client:125] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-11-01 09:57:58] [WARNING] [f1dd2e35-8bb2-469c-a94c-ced2da43ce62] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-11-01 09:57:58] [WARNING] [f1dd2e35-8bb2-469c-a94c-ced2da43ce62] [app:19] - Domain Exception Handled: [VALIDATION_ERROR] Invalid login request payload - Context: {'username': ['Missing data for required field.'], 'password': ['Missing data for required field.']}
+[2026-11-01 09:57:58] [ERROR] [2e683026-1ef7-4c61-8fd4-b37b33a71b54] [app.services.polling_service:155] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-11-01 09:57:58] [ERROR] [2e683026-1ef7-4c61-8fd4-b37b33a71b54] [app.services.polling_service:155] - Bulk Job 7501 failed on Salesforce: QueryTimeout: SOQL chunk query exceeded 15 minutes
+[2026-11-01 09:57:58] [WARNING] [2e683026-1ef7-4c61-8fd4-b37b33a71b54] [app.services.polling_service:120] - [Attempt 1] Transient error polling job 7501 (1/3): Transient 503 Service Unavailable
+[2026-11-01 09:57:58] [WARNING] [2e683026-1ef7-4c61-8fd4-b37b33a71b54] [app.services.polling_service:120] - [Attempt 1] Transient error polling job 7501 (1/3): Transient 503 Service Unavailable
+[2026-11-01 09:57:58] [ERROR] [2e683026-1ef7-4c61-8fd4-b37b33a71b54] [app.services.polling_service:107] - Polling exceeded timeout of 10s for job 7501
+[2026-11-01 09:57:58] [ERROR] [2e683026-1ef7-4c61-8fd4-b37b33a71b54] [app.services.polling_service:107] - Polling exceeded timeout of 10s for job 7501
+[2026-11-01 09:57:58] [WARNING] [2e683026-1ef7-4c61-8fd4-b37b33a71b54] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-11-01 09:57:58] [WARNING] [2e683026-1ef7-4c61-8fd4-b37b33a71b54] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_grant - authentication failure - user credentials invalid
+[2026-11-01 09:57:58] [WARNING] [2e683026-1ef7-4c61-8fd4-b37b33a71b54] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:57:58] [WARNING] [2e683026-1ef7-4c61-8fd4-b37b33a71b54] [app.integrations.auth:220] - Salesforce OAuth error [400]: invalid_client - invalid client credentials
+[2026-11-01 09:57:58] [WARNING] [2e683026-1ef7-4c61-8fd4-b37b33a71b54] [app.integrations.salesforce_client:125] - Salesforce access token expired (HTTP 401). Forcing token refresh...
+[2026-11-01 09:57:58] [WARNING] [2e683026-1ef7-4c61-8fd4-b37b33a71b54] [app.integrations.salesforce_client:125] - Salesforce access token expired (HTTP 401). Forcing token refresh...
