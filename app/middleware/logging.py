@@ -5,11 +5,13 @@ and request lifecycle logging with correlation ID tracing.
 """
 
 import os
+import json
 import time
 import uuid
 import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
+from datetime import datetime, timezone
 from flask import Flask, request, g, Response, has_app_context
 from app.utils.constants import HEADER_CORRELATION_ID
 
@@ -25,6 +27,48 @@ class CorrelationLogFormatter(logging.Formatter):
         except Exception:
             record.correlation_id = "SYSTEM"
         return super().format(record)
+
+class JSONStructuredFormatter(logging.Formatter):
+    """
+    Enterprise Structured JSON Formatter.
+    Serializes log records into standard JSON objects containing timestamp,
+    severity level, correlation ID, request ID, logger module, and error context.
+    """
+    def format(self, record: logging.LogRecord) -> str:
+        corr_id = "SYSTEM"
+        req_id = "N/A"
+        try:
+            if has_app_context():
+                if hasattr(g, "correlation_id"):
+                    corr_id = g.correlation_id
+                if hasattr(g, "request_id"):
+                    req_id = g.request_id
+        except Exception:
+            pass
+
+        log_payload = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "level": record.levelname,
+            "correlation_id": getattr(record, "correlation_id", corr_id),
+            "request_id": getattr(record, "request_id", req_id),
+            "logger": record.name,
+            "line": record.lineno,
+            "message": record.getMessage()
+        }
+
+        if hasattr(record, "duration_ms"):
+            log_payload["duration_ms"] = record.duration_ms
+        if hasattr(record, "context"):
+            log_payload["context"] = record.context
+
+        if record.exc_info:
+            log_payload["exception"] = {
+                "type": record.exc_info[0].__name__ if record.exc_info[0] else "Exception",
+                "message": str(record.exc_info[1]),
+                "traceback": self.formatException(record.exc_info)
+            }
+
+        return json.dumps(log_payload)
 
 def setup_logging(app: Flask) -> logging.Logger:
     """

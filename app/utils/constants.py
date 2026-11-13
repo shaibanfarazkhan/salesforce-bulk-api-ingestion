@@ -33,6 +33,28 @@ class ErrorCode(str, Enum):
     DATABASE_ERROR = "DATABASE_ERROR"
     INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR"
     RESOURCE_NOT_FOUND = "RESOURCE_NOT_FOUND"
+    CIRCUIT_BREAKER_OPEN = "CIRCUIT_BREAKER_OPEN"
+    QUEUE_FULL = "QUEUE_FULL"
+    DEAD_LETTER_JOB = "DEAD_LETTER_JOB"
+
+class CircuitState(str, Enum):
+    """Circuit Breaker States."""
+    CLOSED = "CLOSED"
+    OPEN = "OPEN"
+    HALF_OPEN = "HALF_OPEN"
+
+class DLQStatus(str, Enum):
+    """Dead Letter Queue Item Statuses."""
+    PENDING_REVIEW = "PENDING_REVIEW"
+    REPLAYED = "REPLAYED"
+    RESOLVED = "RESOLVED"
+    DISCARDED = "DISCARDED"
+
+class SchedulerStatus(str, Enum):
+    """Scheduler Runtime States."""
+    RUNNING = "RUNNING"
+    PAUSED = "PAUSED"
+    STOPPED = "STOPPED"
 
 # HTTP Header Constants
 HEADER_CORRELATION_ID = "X-Correlation-ID"

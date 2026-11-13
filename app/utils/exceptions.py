@@ -187,3 +187,46 @@ class RepositoryException(AppException):
             details=details
         )
 
+# ==============================================================================
+# Phase 7: Enterprise Processing & Resilience Exceptions
+# ==============================================================================
+class CircuitBreakerOpenException(AppException):
+    """Raised when an operation is blocked because the circuit breaker is in OPEN state."""
+    def __init__(self, message: str = "Circuit breaker is OPEN. Fast-failing request.", details: Optional[Dict[str, Any]] = None) -> None:
+        super().__init__(
+            message=message,
+            status_code=503,
+            error_code="CIRCUIT_BREAKER_OPEN",
+            details=details
+        )
+
+class QueueFullException(AppException):
+    """Raised when the worker processing queue reaches maximum capacity."""
+    def __init__(self, message: str = "Worker queue capacity reached. Cannot accept new jobs.", details: Optional[Dict[str, Any]] = None) -> None:
+        super().__init__(
+            message=message,
+            status_code=429,
+            error_code="QUEUE_FULL",
+            details=details
+        )
+
+class DeadLetterException(AppException):
+    """Raised when a job exhausts all retries or experiences fatal error and is sent to DLQ."""
+    def __init__(self, message: str, details: Optional[Dict[str, Any]] = None) -> None:
+        super().__init__(
+            message=message,
+            status_code=500,
+            error_code="DEAD_LETTER_JOB",
+            details=details
+        )
+
+class SchedulerException(AppException):
+    """Raised when background job scheduler encounters a configuration or execution error."""
+    def __init__(self, message: str, details: Optional[Dict[str, Any]] = None) -> None:
+        super().__init__(
+            message=message,
+            status_code=500,
+            error_code="SCHEDULER_ERROR",
+            details=details
+        )
+

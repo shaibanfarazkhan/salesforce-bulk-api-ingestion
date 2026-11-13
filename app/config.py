@@ -64,6 +64,20 @@ class BaseConfig:
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
     LOG_DIR: str = os.getenv("LOG_DIR", str(BASE_DIR / "logs"))
 
+    # Phase 7: Enterprise Processing, Resilience & Concurrency Configuration
+    MAX_WORKERS: int = int(os.getenv("MAX_WORKERS", "4"))
+    QUEUE_MAX_SIZE: int = int(os.getenv("QUEUE_MAX_SIZE", "1000"))
+    MAX_RETRIES: int = int(os.getenv("MAX_RETRIES", "3"))
+    RETRY_BASE_DELAY: float = float(os.getenv("RETRY_BASE_DELAY", "2.0"))
+    RETRY_MAX_DELAY: float = float(os.getenv("RETRY_MAX_DELAY", "60.0"))
+    DLQ_MAX_SIZE: int = int(os.getenv("DLQ_MAX_SIZE", "5000"))
+    DLQ_RETENTION_DAYS: int = int(os.getenv("DLQ_RETENTION_DAYS", "30"))
+    SCHEDULER_ENABLED: bool = os.getenv("SCHEDULER_ENABLED", "True").lower() in ("true", "1", "yes")
+    SCHEDULER_INTERVAL_SECONDS: int = int(os.getenv("SCHEDULER_INTERVAL_SECONDS", "300"))
+    CIRCUIT_BREAKER_FAILURE_THRESHOLD: int = int(os.getenv("CIRCUIT_BREAKER_FAILURE_THRESHOLD", "5"))
+    CIRCUIT_BREAKER_RESET_TIMEOUT: int = int(os.getenv("CIRCUIT_BREAKER_RESET_TIMEOUT", "60"))
+    STRUCTURED_LOGGING: bool = os.getenv("STRUCTURED_LOGGING", "False").lower() in ("true", "1", "yes")
+
 class DevelopmentConfig(BaseConfig):
     """Development Environment Configuration."""
     DEBUG: bool = True
